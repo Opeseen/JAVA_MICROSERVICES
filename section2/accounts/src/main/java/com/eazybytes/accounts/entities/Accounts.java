@@ -1,8 +1,6 @@
 package com.eazybytes.accounts.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
@@ -12,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Accounts {
+public class Accounts extends BaseEntity {
   private Long customerId;
   @Id
   private long accountNumber;
