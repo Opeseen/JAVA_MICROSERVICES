@@ -14,3 +14,22 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_prod.yml"
+  profiles:
+    active:
+      - "prod"
+
+build:
+  version: "3.0"
+
+cards:
+  message: "Welcome to EazyBank cards related local APIs "
+  contactDetails:
+    name: "Jerry Kelly - Developer"
+    email: "jerry@eazybank.com"
+  onCallSupport:
+    - (111) 555-1234
+    - (111) 523-1345

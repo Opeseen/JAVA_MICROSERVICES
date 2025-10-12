@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: "configserver"
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          #search-locations: "classpath:/config"
+          search-locations: "file:///C://Users//HomePC//Desktop//Tutorials//CodePractice//FIRST GITHUB FILES//Eazybytes_JAVA_MICROSERVICES//section6//v2-springcloud//appConfig"
+
+
+server:
+  port: 8071

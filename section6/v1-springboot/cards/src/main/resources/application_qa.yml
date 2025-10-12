@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+cards:
+  message: "Welcome to EazyBank cards related QA APIs "
+  contactDetails:
+    name: "Paul Ray - QA Lead"
+    email: "paul@eazybank.com"
+  onCallSupport:
+    - (321) 265-1234
+    - (321) 734-1345
