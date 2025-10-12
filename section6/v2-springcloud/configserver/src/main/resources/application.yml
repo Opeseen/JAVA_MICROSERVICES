@@ -2,14 +2,21 @@ spring:
   application:
     name: "configserver"
   profiles:
-    active: native
+    #active: native
+    active: git
   cloud:
     config:
       server:
-        native:
+        #native:
           #search-locations: "classpath:/config"
-          search-locations: "file:///C://Users//HomePC//Desktop//Tutorials//CodePractice//FIRST GITHUB FILES//Eazybytes_JAVA_MICROSERVICES//section6//v2-springcloud//appFileConfig"
-
+          #search-locations: "file:///C://Users//HomePC//Desktop//Tutorials//CodePractice//FIRST GITHUB FILES//Eazybytes_JAVA_MICROSERVICES//section6//v2-springcloud//appFileConfig"
+        git:
+          uri: "https://github.com/Opeseen/JAVA_MICROSERVICES.git"
+          default-label: master
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+          search-paths: "section6/v2-springcloud/appGitConfig"
 
 server:
   port: 8071
