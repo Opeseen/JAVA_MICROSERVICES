@@ -8,7 +8,7 @@ spring:
       server:
         native:
           #search-locations: "classpath:/config"
-          search-locations: "file:///C://Users//HomePC//Desktop//Tutorials//CodePractice//FIRST GITHUB FILES//Eazybytes_JAVA_MICROSERVICES//section6//v2-springcloud//appConfig"
+          search-locations: "file:///C://Users//HomePC//Desktop//Tutorials//CodePractice//FIRST GITHUB FILES//Eazybytes_JAVA_MICROSERVICES//section6//v2-springcloud//appFileConfig"
 
 
 server:
