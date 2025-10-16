@@ -18,5 +18,8 @@ spring:
           force-pull: true
           search-paths: "section6/v2-springcloud/appGitConfig"
 
+encrypt:
+  key: ABCD123456908645HFTWAVBRPLMDH
+
 server:
   port: 8071
