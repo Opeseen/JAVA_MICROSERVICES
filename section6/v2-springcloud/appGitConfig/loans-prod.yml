@@ -2,7 +2,7 @@ build:
   version: "1.0"
 
 loans:
-  message: "Welcome to EazyBank loans related Production APIs "
+  message: "Welcome to EazyBank loans related Prod APIs "
   contactDetails:
     name: "Bella Aishwarya - Product Owner"
     email: "bella@eazybank.com"
