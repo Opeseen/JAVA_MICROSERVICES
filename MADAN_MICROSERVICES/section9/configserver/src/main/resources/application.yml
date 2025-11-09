@@ -12,7 +12,7 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
-          search-paths: "MADAN_MICROSERVICES/section8/appGitConfig"
+          search-paths: "MADAN_MICROSERVICES/section9/appGitConfig"
 
 management:
   endpoints:
