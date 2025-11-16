@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS users(
+	user_id INT AUTO_INCREMENT PRIMARY KEY,
+	full_name VARCHAR(50) NOT NULL,
+	username VARCHAR(30) NOT NULL,
+	created_at DATE NOT NULL,
+	updated_at DATE DEFAULT NULL,
+);
