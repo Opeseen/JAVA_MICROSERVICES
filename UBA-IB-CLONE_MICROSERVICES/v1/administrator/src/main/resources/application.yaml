@@ -2,7 +2,7 @@ server:
   port: 8050
 spring:
   application:
-    name: administrator
+    name: "administrator"
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver

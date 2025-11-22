@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS customers (
 	customer_id INT AUTO_INCREMENT PRIMARY KEY,
-	email VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL UNIQUE,
 	full_name VARCHAR(50) NOT NULL,
 	phone VARCHAR(20) NOT NULL,
 	created_at DATE NOT NULL,
@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS customers (
 
 CREATE TABLE IF NOT EXISTS accounts (
 	account_number INT AUTO_INCREMENT PRIMARY KEY,
-	customer_id INT NOt NULL,
+	customer_id INT NOT NULL,
+	bvn INT NOT NULL UNIQUE,
 	account_type VARCHAR(50) NOT NULL,
 	branch_address VARCHAR(100) NOT NULL,
 	created_at DATE NOT NULL,

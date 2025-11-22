@@ -1,4 +1,4 @@
-package com.ubaclone.accounts.entity;
+package com.ubaclone.administrator.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
