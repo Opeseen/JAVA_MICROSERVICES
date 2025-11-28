@@ -1,8 +1,9 @@
-package com.ubaclone.accounts.exception;
+package com.ubaclone.transactions.exception;
 
-import com.ubaclone.accounts.dto.ErrorResponseDTO;
+import com.ubaclone.transactions.dto.ErrorResponseDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
@@ -82,5 +84,4 @@ public class GlobalExceptionHandler {
     );
     return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
   }
-
 }

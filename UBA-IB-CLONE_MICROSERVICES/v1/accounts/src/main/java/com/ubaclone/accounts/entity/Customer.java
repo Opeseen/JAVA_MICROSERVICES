@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @Table(name = "customers")
-public class Customer {
+public class Customer extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "customer_id")
@@ -21,5 +21,14 @@ public class Customer {
 
   @Column(name = "phone")
   private String phone;
+
+  @Column(name = "bvn")
+  private Long bvn;
+
+  @Column(name = "account_type")
+  private String accountType;
+
+  @Column(name = "branch_address")
+  private String branchAddress;
 
 }

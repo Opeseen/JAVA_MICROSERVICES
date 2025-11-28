@@ -1,4 +1,4 @@
-package com.ubaclone.accounts.exception;
+package com.ubaclone.transactions.exception;
 
 public class ResourceNotFoundException extends RuntimeException{
 

@@ -16,14 +16,5 @@ public class Account extends BaseEntity{
   private Long accountNumber;
 
   @Column(name = "customer_id")
-  private String customerId;
-
-  @Column(name = "bvn")
-  private Long bvn;
-
-  @Column(name = "account_type")
-  private String accountType;
-
-  @Column(name = "branch_address")
-  private String branchAddress;
+  private Long customerId;
 }

@@ -1,12 +1,10 @@
-package com.ubaclone.accounts.dto;
+package com.ubaclone.transactions.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
-@Data
 public class SuccessResponseDTO {
 
   private Boolean success;

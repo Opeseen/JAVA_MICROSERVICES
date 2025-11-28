@@ -1,11 +1,9 @@
-package com.ubaclone.accounts.dto;
+package com.ubaclone.transactions.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
 @AllArgsConstructor
 public class ErrorResponseDTO {
 
