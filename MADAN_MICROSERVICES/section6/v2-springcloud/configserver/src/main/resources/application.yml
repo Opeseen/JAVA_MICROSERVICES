@@ -8,8 +8,8 @@ spring:
     config:
       server:
         #native:
-          #search-locations: "classpath:/config"
-          #search-locations: "file:///C://Users//HomePC//Desktop//Tutorials//CodePractice//FIRST GITHUB FILES//Eazybytes_JAVA_MICROSERVICES//section6//v2-springcloud//appFileConfig"
+        #search-locations: "classpath:/config"
+        #search-locations: "file:///C://Users//HomePC//Desktop//Tutorials//CodePractice//FIRST GITHUB FILES//Eazybytes_JAVA_MICROSERVICES//section6//v2-springcloud//appFileConfig"
         git:
           uri: "https://github.com/Opeseen/JAVA_MICROSERVICES.git"
           default-label: master

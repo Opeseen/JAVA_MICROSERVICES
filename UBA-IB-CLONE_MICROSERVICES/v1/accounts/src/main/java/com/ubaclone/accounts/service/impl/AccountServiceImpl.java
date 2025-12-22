@@ -5,7 +5,7 @@ import com.ubaclone.accounts.dto.CustomerDTO;
 import com.ubaclone.accounts.entity.Account;
 import com.ubaclone.accounts.entity.Customer;
 import com.ubaclone.accounts.exception.ResourceAlreadyExists;
-import com.ubaclone.accounts.exception.ResourceNotFoundException;
+import com.ubaclone.accounts.exception.ResourceNotFound;
 import com.ubaclone.accounts.mapper.AccountMapper;
 import com.ubaclone.accounts.mapper.CustomerMapper;
 import com.ubaclone.accounts.repository.AccountRepository;
@@ -13,6 +13,7 @@ import com.ubaclone.accounts.repository.CustomerRepository;
 import com.ubaclone.accounts.service.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class AccountServiceImpl implements IAccountService {
   private final CustomerRepository customerRepository;
 
   @Override
+  @Transactional
   public void createCustomerAndAccount(CustomerDTO customerDTO) {
     // map the customer details first
     Customer customer = CustomerMapper.mapToCustomer(customerDTO, new Customer());
@@ -40,17 +42,12 @@ public class AccountServiceImpl implements IAccountService {
     Account accountInformation = createNewAccount(newCustomer);
     accountRepository.save(accountInformation);
   }
-
-  /**
-   * Method to create an account for an existing customer
-   *
-   * @param bvn
-   */
+  
   @Override
   public void createAccount(Long bvn) {
     // get the customer information
     Customer customer = customerRepository.findByBvn(bvn).orElseThrow(
-        () -> new ResourceNotFoundException("Customer", "BVN", bvn.toString())
+        () -> new ResourceNotFound("Customer", "BVN", bvn.toString())
     );
     // create the new account information
     Account accountInformation = createNewAccount(customer);
@@ -58,14 +55,14 @@ public class AccountServiceImpl implements IAccountService {
   }
 
   @Override
-  public AccountDTO fetchAccount(Long accountNumber) {
+  public AccountDTO fetchAccountInformation(Long accountNumber) {
     // check if the account information exists
     Account account = accountRepository.findById(accountNumber).orElseThrow(
-        () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString())
+        () -> new ResourceNotFound("Account", "AccountNumber", accountNumber.toString())
     );
     // get the customer information
     Customer customer = customerRepository.findById(account.getCustomerId()).orElseThrow(
-        () -> new ResourceNotFoundException("Customer", "customerId", account.getCustomerId().toString())
+        () -> new ResourceNotFound("Customer", "customerId", account.getCustomerId().toString())
     );
     // return the account and customer information
     AccountDTO accountDTO = AccountMapper.mapToAccountDto(account, new AccountDTO());
@@ -87,6 +84,12 @@ public class AccountServiceImpl implements IAccountService {
     }).toList();
   }
 
+  @Override
+  public Account findByAccountNumber(Long accountNumber) {
+    return accountRepository.findById(accountNumber).orElseThrow(
+        () -> new ResourceNotFound("Account", "AccountNumber", accountNumber.toString())
+    );
+  }
 
   // helper method to create the account information
   private Account createNewAccount(Customer customer){
@@ -94,6 +97,7 @@ public class AccountServiceImpl implements IAccountService {
     Long randomAccNumber = 1000000000L + new Random().nextInt(900000000);
     newAccount.setAccountNumber(randomAccNumber);
     newAccount.setCustomerId(customer.getCustomerId());
+    newAccount.setBalance(0);
     return newAccount;
   }
 
@@ -101,8 +105,9 @@ public class AccountServiceImpl implements IAccountService {
   private Customer findCustomerByEmail(String email){
     Optional<Customer> customer = customerRepository.findByEmail(email);
     if(customer.isEmpty()){
-      throw new ResourceNotFoundException("Customer", "Email", email);
+      throw new ResourceNotFound("Customer", "Email", email);
     }
     return customer.get();
   }
+
 }

@@ -6,6 +6,7 @@ import com.ubaclone.accounts.entity.Account;
 public class AccountMapper {
   public static AccountDTO mapToAccountDto(Account account, AccountDTO accountDTO){
     accountDTO.setAccountNumber(account.getAccountNumber().toString());
+    accountDTO.setBalance(account.getBalance());
     return accountDTO;
   }
 
@@ -13,4 +14,5 @@ public class AccountMapper {
     account.setAccountNumber(Long.valueOf(accountDTO.getAccountNumber()));
     return account;
   }
+
 }

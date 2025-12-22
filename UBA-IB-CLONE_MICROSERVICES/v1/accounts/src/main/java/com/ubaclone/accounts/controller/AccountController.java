@@ -6,9 +6,9 @@ import com.ubaclone.accounts.dto.SuccessResponseDTO;
 import com.ubaclone.accounts.service.IAccountService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,13 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/account", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 public class AccountController {
   private final IAccountService iAccountService;
+
+  @Value("${build.version}")
+  private String buildVersion;
 
   @PostMapping("/create/customer-account")
   public ResponseEntity<SuccessResponseDTO> createCustomerAndAccount(@Valid @RequestBody CustomerDTO customerDTO){
@@ -33,7 +36,7 @@ public class AccountController {
         LocalDateTime.now()), HttpStatus.CREATED);
   }
 
-  @PostMapping("/create/account")
+  @PostMapping("/create")
   public ResponseEntity<SuccessResponseDTO> createAccount(
       @RequestBody Map<String, String>body) {
     String bvn = body.get("bvn");
@@ -45,21 +48,22 @@ public class AccountController {
         LocalDateTime.now()), HttpStatus.CREATED);
   }
 
-  @GetMapping("/fetch")
-  public ResponseEntity<SuccessResponseDTO> fetchAccount(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})",
+  @GetMapping("/fetch/account")
+  public ResponseEntity<AccountDTO> fetchAccount(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})",
       message = "Account number must be 10 digit") String accountNumber){
-    AccountDTO accountDTO = iAccountService.fetchAccount(Long.valueOf(accountNumber));
-    return new ResponseEntity<>(
-        new SuccessResponseDTO(true, accountDTO, LocalDateTime.now()), HttpStatus.OK
-    );
+    AccountDTO accountDTO = iAccountService.fetchAccountInformation(Long.valueOf(accountNumber));
+    return new ResponseEntity<>(accountDTO,HttpStatus.OK);
   }
 
-  @GetMapping("fetch/customer")
-  public ResponseEntity<SuccessResponseDTO> fetchAllCustomerAccount(
+  @GetMapping("/fetch/customer")
+  public ResponseEntity<List<AccountDTO>> fetchAllCustomerAccount(
       @Email(message = "Enter a valid email") @RequestParam String email){
     List<AccountDTO> customerAccounts = iAccountService.fetchAllCustomerAccount(email.toLowerCase());
-    return  new ResponseEntity<>(
-        new SuccessResponseDTO(true, customerAccounts, LocalDateTime.now()), HttpStatus.OK
-    );
+    return  new ResponseEntity<>(customerAccounts, HttpStatus.OK);
+  }
+
+  @GetMapping("/build/info")
+  public ResponseEntity<String> getBuildInfo(){
+    return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
   }
 }
