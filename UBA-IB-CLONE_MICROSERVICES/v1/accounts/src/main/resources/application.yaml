@@ -18,6 +18,10 @@ spring:
     show-sql: false
   config:
     import: "optional:configserver:http://localhost:8030/"
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 management:
   endpoints:
@@ -53,3 +57,11 @@ info:
     name: "accounts"
     description: "UBA Clone Account Application"
     version: "1.0.0"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000

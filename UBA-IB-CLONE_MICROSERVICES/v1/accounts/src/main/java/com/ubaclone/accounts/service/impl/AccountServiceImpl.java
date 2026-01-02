@@ -36,6 +36,12 @@ public class AccountServiceImpl implements IAccountService {
     if(searchCustomer.isPresent()){
       throw new ResourceAlreadyExists("Customer", "email", customer.getEmail());
     }
+    // check if the BVN already exists for a customer
+    customerRepository.findByBvn(Long.parseLong(customerDTO.getBvn())).ifPresent(
+        c -> {
+          throw new ResourceAlreadyExists("Customer", "bvn", customerDTO.getBvn());
+        }
+    );
     // save the customer data to the db
     Customer newCustomer = customerRepository.save(customer);
     // create the customer account details

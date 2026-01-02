@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("accounts")
+@FeignClient(value = "accounts", fallbackFactory = AccountsFallbackFactory.class)
 public interface AccountFeignClient {
 
   @GetMapping(value = "/api/fetch/account", consumes = "application/json")

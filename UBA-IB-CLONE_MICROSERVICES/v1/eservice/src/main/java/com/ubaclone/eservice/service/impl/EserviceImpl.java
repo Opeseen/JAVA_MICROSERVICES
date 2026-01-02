@@ -28,9 +28,14 @@ public class EserviceImpl implements IEservice {
     }
     // fetch the customer account details
     AccountDTO accountDTO = iCustomerService.fetchAccountInformation(userDTO.getAccountNumber());
+    Long customerId = accountDTO.getCustomer().getCustomerId();
+    // check if the customer is already registered
+    if(userRepository.existsByCustomerId(customerId)){
+      throw new RuntimeException("User already registered for this customer");
+    }
     // map to the user object and save the user record to the db
     Users users = UserMapper.mapToUser(userDTO, new Users());
-    users.setCustomerId(accountDTO.getCustomer().getCustomerId());
+    users.setCustomerId(customerId);
     users.setPassword(passwordEncoder.encode(userDTO.getPassword()));
     userRepository.save(users);
   }

@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import java.util.Map;
 @Validated
 public class AccountController {
   private final IAccountService iAccountService;
+  private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
   @Value("${build.version}")
   private String buildVersion;
