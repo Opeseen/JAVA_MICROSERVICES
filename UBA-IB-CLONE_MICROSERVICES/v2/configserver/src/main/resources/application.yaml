@@ -14,7 +14,7 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
-          search-locations: "UBA-IB-CLONE_MICROSERVICES/V2/configFile"
+          search-locations: "UBA-IB-CLONE_MICROSERVICES/v2/configFile"
 
 management:
   endpoints:
