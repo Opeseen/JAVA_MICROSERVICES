@@ -80,16 +80,29 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
-#  prometheus:
-#    image: prom/prometheus:v3.8.0
-#    container_name: prometheus
-#    ports:
-#      - "9090:9090"
-#    volumes:
-#      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-#    extends:
-#      file: common-config.yml
-#      service: network-deploy-service
+  prometheus:
+    image: prom/prometheus:v3.8.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  tempo:
+    image: grafana/tempo:2.9.0
+    container_name: tempo
+    command: -config.file /etc/tempo-config.yml
+    ports:
+      - "3110:3100"
+      - "4318:4318"
+    volumes:
+      - ../observability/tempo/tempo.yml:/etc/tempo-config.yml
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
   grafana:
     image: grafana/grafana:latest
@@ -208,13 +221,15 @@ services:
       - "8030:8030"
     healthcheck:
       test: "curl --fail --silent localhost:8030/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
+      interval: 20s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 10s
     extends:
       file: common-config.yml
       service: microservice-base-config
+    environment:
+      OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
     image: "ubaclone/eurekaserver:v2"
@@ -223,15 +238,16 @@ services:
       - "8040:8040"
     healthcheck:
       test: "curl --fail --silent localhost:8040/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
+      interval: 20s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 10s
     depends_on:
       configserver:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "eurekaserver"
+      OTEL_SERVICE_NAME: "eurekaserver"
     extends:
       file: common-config.yml
       service: microservice-configserver-config
@@ -243,9 +259,9 @@ services:
       - "8060:8060"
     healthcheck:
       test: "curl --fail --silent localhost:8060/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
+      interval: 20s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 10s
     depends_on:
       configserver:
@@ -254,6 +270,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
+      OTEL_SERVICE_NAME: "accounts"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -265,9 +282,9 @@ services:
       - "8070:8070"
     healthcheck:
       test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
+      interval: 20s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 10s
     depends_on:
       configserver:
@@ -276,6 +293,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "eservice"
+      OTEL_SERVICE_NAME: "eservice"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -296,6 +314,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "gatewayserver"
+      OTEL_SERVICE_NAME: "gatewayserver"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
