@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: gatewayserver
+  config:
+    import: "optional:configserver:http://localhost:8030/"
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: false
+              lowerCaseServiceId: true
+          httpclient:
+            connect-timeout: 1000
+            response-timeout: 10s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "UBA Clone GatewayServer Application"
+    version: "1.0.0"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+
+logging:
+  level:
+    com:
+      gatewayserver:
+        accounts: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+keycloak:
+  server-url: http://localhost:8180
+  realm: master
+  client-id: ubaclone-user
+  client-secret: 4iStvSmrOoKzZoxp8kTUIoR5vCcMiabf
