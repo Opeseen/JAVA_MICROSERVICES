@@ -30,7 +30,6 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
     <otelVersion>2.22.0</otelVersion>
-    <keycloakVersion>26.0.8</keycloakVersion>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -42,11 +41,6 @@
       <artifactId>opentelemetry-javaagent</artifactId>
       <version>${otelVersion}</version>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.keycloak</groupId>
-      <artifactId>keycloak-admin-client</artifactId>
-      <version>${keycloakVersion}</version>
     </dependency>
     <dependency>
       <groupId>io.micrometer</groupId>
@@ -69,7 +63,6 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
@@ -81,11 +74,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <optional>true</optional>
     </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -123,7 +111,7 @@
         <version>3.4.6</version>
         <configuration>
           <to>
-            <image>ubaclone/${project.artifactId}:v2</image>
+            <image>ubaclone/${project.artifactId}:v3</image>
           </to>
         </configuration>
       </plugin>

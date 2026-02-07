@@ -32,39 +32,35 @@ public class AccountController {
   @Value("${build.version}")
   private String buildVersion;
 
-  @PostMapping("/create/customer-account")
+  @PostMapping("/public/create")
   public ResponseEntity<SuccessResponseDTO> createCustomerAndAccount(@Valid @RequestBody CustomerDTO customerDTO){
     iAccountService.createCustomerAndAccount(customerDTO);
     return new ResponseEntity<>(new SuccessResponseDTO(true, "Customer account created successfully",
         LocalDateTime.now()), HttpStatus.CREATED);
   }
 
-  @PostMapping("/create")
-  public ResponseEntity<SuccessResponseDTO> createAccount(
-      @RequestBody Map<String, String>body) {
-    String bvn = body.get("bvn");
-    if (!bvn.matches("^[0-9]{11}$")) {
-      throw new IllegalArgumentException("BVN must be exactly 11 digits");
-    }
-    iAccountService.createAccount(Long.valueOf(bvn));
-    return new ResponseEntity<>(new SuccessResponseDTO(true, "Account created successfully",
-        LocalDateTime.now()), HttpStatus.CREATED);
-  }
 
-  @GetMapping("/fetch/account")
+  @GetMapping("/accountDetails")
   public ResponseEntity<AccountDTO> fetchAccount(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})",
       message = "Account number must be 10 digit") String accountNumber){
-    logger.debug("fetchAccountDetails method start");
     AccountDTO accountDTO = iAccountService.fetchAccountInformation(Long.valueOf(accountNumber));
-    logger.debug("fetchAccountDetails method end");
     return new ResponseEntity<>(accountDTO,HttpStatus.OK);
   }
 
-  @GetMapping("/fetch/customer")
+  @GetMapping("/customerDetails")
   public ResponseEntity<List<AccountDTO>> fetchAllCustomerAccount(
       @Email(message = "Enter a valid email") @RequestParam String email){
     List<AccountDTO> customerAccounts = iAccountService.fetchAllCustomerAccount(email.toLowerCase());
     return  new ResponseEntity<>(customerAccounts, HttpStatus.OK);
+  }
+
+  @GetMapping("/verifyAccount")
+  public ResponseEntity<Boolean> verifyAccount(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})",
+      message = "Account number must be 10 digit") String accountNumber){
+    logger.debug("verifyUserAccountDetails method start");
+    iAccountService.verifyUserAccount(Long.valueOf(accountNumber));
+    logger.debug("verifyUserAccountDetails method end");
+    return new ResponseEntity<>(true, HttpStatus.OK);
   }
 
   @GetMapping("/build/info")

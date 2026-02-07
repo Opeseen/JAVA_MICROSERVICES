@@ -1,14 +1,14 @@
-#### Customer creation
-- No duplicate in customer email and BVN
+## Steps
 
-#### Account creation
-- A customer can have multiple account but with one BVN linked
+### Normal user for (e-service)
 
-#### Internet service account (e-account)
-- We would have where user can directly create an account
-- A user must have an account number (create account) b4 accessing the e-account
-- New user creating an e-account will present their account number for validation and once validated, 
-they will be redirected to the page to enter their e-account signup information.
-- Existing users will just user their e-account credentials to login
+- Must already have an account with the bank (if not must create one) ✔️
+- Will register for the e-service in keycloak ✔️
+- During e-service registration (user must provide their account number for verification)
+- Account details information must be verified and saved along with the user information in keycloak
+- Must be able to login to the e-service platform to access their accounts and perform transactions (UI features)
 
-#### Building the edge/gateway server
+### Authenticated flow
+Unprotected path ️✔️
+- "/api/public/"
+- "/ubaclone/accounts/api/public/**"

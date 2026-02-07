@@ -3,19 +3,6 @@ server:
 spring:
   application:
     name: "eservice"
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: ""
-  h2:
-    console:
-      enabled: true
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-    show-sql: false
   config:
     import: "optional:configserver:http://localhost:8030/"
   cloud:
@@ -73,7 +60,13 @@ resilience4j.circuitbreaker:
 logging:
   level:
     com:
-      eservice:
-        accounts: DEBUG
+      ubaclone:
+        eservice: DEBUG
   pattern:
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+keycloak:
+  server-url: http://localhost:8180
+  realm: ubaclone
+  client-id: ubaclone-client
+  client-secret: 4iStvSmrOoKzZoxp8kTUIoR5vCcMiabf

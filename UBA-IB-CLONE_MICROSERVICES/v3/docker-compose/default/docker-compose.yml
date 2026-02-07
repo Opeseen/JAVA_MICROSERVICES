@@ -1,4 +1,17 @@
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3.3
+    container_name: keycloak
+    ports:
+      - "8180:8080"
+    environment:
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+    command: "start-dev"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   read:
     image: grafana/loki:latest
     command: "-config.file=/etc/loki/config.yaml -target=read"
@@ -215,7 +228,7 @@ services:
       service: network-deploy-service
 
   configserver:
-    image: "ubaclone/configserver:v2"
+    image: "ubaclone/configserver:v3"
     container_name: configserver-ms
     ports:
       - "8030:8030"
@@ -232,7 +245,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
-    image: "ubaclone/eurekaserver:v2"
+    image: "ubaclone/eurekaserver:v3"
     container_name: eurekaserver-ms
     ports:
       - "8040:8040"
@@ -253,10 +266,8 @@ services:
       service: microservice-configserver-config
 
   accounts:
-    image: "ubaclone/accounts:v2"
+    image: "ubaclone/accounts:v3"
     container_name: account-ms
-    ports:
-      - "8060:8060"
     healthcheck:
       test: "curl --fail --silent localhost:8060/actuator/health/readiness | grep UP || exit 1"
       interval: 20s
@@ -275,34 +286,13 @@ services:
       file: common-config.yml
       service: microservice-eureka-config
 
-  eservice:
-    image: "ubaclone/eservice:v2"
-    container_name: eservice-ms
-    ports:
-      - "8070:8070"
-    healthcheck:
-      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 20
-      start_period: 10s
-    depends_on:
-      configserver:
-        condition: service_healthy
-      eurekaserver:
-        condition: service_healthy
-    environment:
-      SPRING_APPLICATION_NAME: "eservice"
-      OTEL_SERVICE_NAME: "eservice"
-    extends:
-      file: common-config.yml
-      service: microservice-eureka-config
-
   gatewayserver:
-    image: "ubaclone/gatewayserver:v2"
+    image: "ubaclone/gatewayserver:v3"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
+    extra_hosts: # for development testng so that jwt issuer url is available
+      - "localhost:host-gateway"
     depends_on:
       configserver:
         condition: service_healthy
@@ -310,11 +300,10 @@ services:
         condition: service_healthy
       accounts:
         condition: service_healthy
-      eservice:
-        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "gatewayserver"
       OTEL_SERVICE_NAME: "gatewayserver"
+      KEYCLOAK_SERVER-URL: "http://keycloak:8080"
     extends:
       file: common-config.yml
       service: microservice-eureka-config

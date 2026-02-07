@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
     Map<String, Object> response = new HashMap<>();
     response.put("error", true);
     response.put("message", validationErrors);
-    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
     constraintViolationSet.forEach(constraintViolation ->
         errors.put(constraintViolation.getPropertyPath().toString(),constraintViolation.getMessage())
     );
-    return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errors, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
 }

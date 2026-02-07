@@ -10,7 +10,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -22,10 +21,9 @@ import java.util.Set;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception exception, WebRequest webRequest){
+  public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception exception){
     ErrorResponseDTO errorResponse = new ErrorResponseDTO(
         false,
-        webRequest.getDescription(false),
         exception.getMessage(),
         LocalDateTime.now()
     );
@@ -34,10 +32,9 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(ResourceAlreadyExists.class)
   public ResponseEntity<ErrorResponseDTO> handleResourceAlreadyExistsException
-      (ResourceAlreadyExists exception, WebRequest webRequest){
+      (ResourceAlreadyExists exception){
     ErrorResponseDTO errorResponse = new ErrorResponseDTO(
         false,
-        webRequest.getDescription(false),
         exception.getMessage(),
         LocalDateTime.now()
     );
@@ -46,27 +43,25 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(ResourceNotFound.class)
   public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(
-      ResourceNotFound exception, WebRequest webRequest){
+      ResourceNotFound exception){
     ErrorResponseDTO errorResponse = new ErrorResponseDTO(
         false,
-        webRequest.getDescription(false),
         exception.getMessage(),
         LocalDateTime.now()
     );
     return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
-  @ExceptionHandler(BadCredentials.class)
-  public ResponseEntity<ErrorResponseDTO> handleBadCredentialsException(
-      BadCredentials exception, WebRequest webRequest){
+  @ExceptionHandler(KeycloakException.class)
+  public ResponseEntity<ErrorResponseDTO> handleKeycloakException(KeycloakException exception) {
     ErrorResponseDTO errorResponse = new ErrorResponseDTO(
         false,
-        webRequest.getDescription(false),
         exception.getMessage(),
         LocalDateTime.now()
     );
-    return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    return ResponseEntity.status(exception.getStatusCode()).body(errorResponse);
   }
+
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Object> handleMethodArgumentNotValid(

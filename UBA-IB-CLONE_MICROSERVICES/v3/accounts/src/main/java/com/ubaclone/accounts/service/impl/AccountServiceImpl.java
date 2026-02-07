@@ -50,17 +50,6 @@ public class AccountServiceImpl implements IAccountService {
   }
   
   @Override
-  public void createAccount(Long bvn) {
-    // get the customer information
-    Customer customer = customerRepository.findByBvn(bvn).orElseThrow(
-        () -> new ResourceNotFound("Customer", "BVN", bvn.toString())
-    );
-    // create the new account information
-    Account accountInformation = createNewAccount(customer);
-    accountRepository.save(accountInformation);
-  }
-
-  @Override
   public AccountDTO fetchAccountInformation(Long accountNumber) {
     // check if the account information exists
     Account account = accountRepository.findById(accountNumber).orElseThrow(
@@ -95,6 +84,14 @@ public class AccountServiceImpl implements IAccountService {
     return accountRepository.findById(accountNumber).orElseThrow(
         () -> new ResourceNotFound("Account", "AccountNumber", accountNumber.toString())
     );
+  }
+
+  @Override
+  public void verifyUserAccount(Long accountNumber) {
+    boolean isFound = accountRepository.existsById(accountNumber);
+    if(!isFound){
+      throw new ResourceNotFound("Account", "AccountNumber", accountNumber.toString());
+    }
   }
 
   // helper method to create the account information

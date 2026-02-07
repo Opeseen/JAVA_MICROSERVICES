@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class ErrorResponseDTO {
 
   private Boolean success;
-  private String apiPath;
   private String errorMessage;
   private LocalDateTime errorTime;
 }
