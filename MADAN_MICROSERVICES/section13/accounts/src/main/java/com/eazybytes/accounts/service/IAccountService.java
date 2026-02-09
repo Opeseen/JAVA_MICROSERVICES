@@ -11,4 +11,10 @@ public interface IAccountService {
   CustomerDTO fetchAccount(String mobileNumber);
   boolean updateAccount(CustomerDTO customerDTO);
   boolean deleteAccount(String mobileNumber);
+  /**
+   *
+   * @param accountNumber - Long
+   * @return boolean indicating if the update of communication status is successful or not
+   */
+  boolean updateCommunicationStatus(Long accountNumber);
 }

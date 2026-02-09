@@ -1,5 +1,6 @@
 package com.eazybytes.accounts.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -12,9 +13,20 @@ import lombok.*;
 @Entity
 public class Accounts extends BaseEntity {
 
+  @Column(name="customer_id")
   private Long customerId;
+
+  @Column(name="account_number")
   @Id
-  private long accountNumber;
+  private Long accountNumber;
+
+  @Column(name="account_type")
   private String accountType;
+
+  @Column(name="branch_address")
   private String branchAddress;
+
+  @Column(name = "communication_sw")
+  private Boolean communicationSw;
+
 }
