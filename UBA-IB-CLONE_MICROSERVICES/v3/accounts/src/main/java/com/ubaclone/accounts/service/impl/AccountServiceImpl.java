@@ -1,6 +1,7 @@
 package com.ubaclone.accounts.service.impl;
 
 import com.ubaclone.accounts.dto.AccountDTO;
+import com.ubaclone.accounts.dto.AccountMessageDto;
 import com.ubaclone.accounts.dto.CustomerDTO;
 import com.ubaclone.accounts.entity.Account;
 import com.ubaclone.accounts.entity.Customer;
@@ -12,6 +13,8 @@ import com.ubaclone.accounts.repository.AccountRepository;
 import com.ubaclone.accounts.repository.CustomerRepository;
 import com.ubaclone.accounts.service.IAccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +22,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements IAccountService {
 
   private final AccountRepository accountRepository;
   private final CustomerRepository customerRepository;
+  private final StreamBridge streamBridge;
 
   @Override
   @Transactional
@@ -47,6 +52,7 @@ public class AccountServiceImpl implements IAccountService {
     // create the customer account details
     Account accountInformation = createNewAccount(newCustomer);
     accountRepository.save(accountInformation);
+    sendCommunication(accountInformation, newCustomer);
   }
   
   @Override
@@ -111,6 +117,14 @@ public class AccountServiceImpl implements IAccountService {
       throw new ResourceNotFound("Customer", "Email", email);
     }
     return customer.get();
+  }
+
+  // helper message the send email communication to queue
+  private void sendCommunication(Account account, Customer customer){
+    AccountMessageDto accountMessageDto = new AccountMessageDto
+        (account.getAccountNumber(), customer.getFullName(), customer.getEmail());
+    boolean result = streamBridge.send("sendCommunication-out-0", accountMessageDto);
+    log.debug("Is the communication request successfully triggered...?: {}", result);
   }
 
 }
