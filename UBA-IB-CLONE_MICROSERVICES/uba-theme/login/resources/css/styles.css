@@ -1,0 +1,123 @@
+/* Reset Keycloak default styles */
+body {
+  background-color: #111111;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#kc-header {
+  display: none; /* hide default keycloak header */
+}
+
+.login-pf body {
+  background: #111111;
+}
+
+/* Card container */
+#kc-content {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 420px;
+  margin: 80px auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* Logo */
+.uba-logo {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.uba-logo span {
+  font-size: 32px;
+  font-weight: 900;
+  color: #e30613;
+  letter-spacing: 0.05em;
+}
+
+.uba-logo p {
+  font-size: 10px;
+  color: #999999;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 4px 0 0;
+}
+
+/* Title */
+#kc-page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111111;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Input fields */
+.kcInputClass {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.kcInputClass:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #e30613;
+}
+
+/* Labels */
+.kcLabelClass {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Login button */
+#kc-login {
+  width: 100%;
+  background-color: #e30613;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+#kc-login:hover {
+  background-color: #c0000e;
+}
+
+/* Links */
+#kc-registration a,
+#kc-forgot-password a {
+  color: #e30613;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+#kc-registration a:hover,
+#kc-forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* Error messages */
+.kcFeedbackErrorClass {
+  background: #fee2e2;
+  color: #dc2626;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}

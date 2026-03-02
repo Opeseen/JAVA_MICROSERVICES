@@ -1,0 +1,72 @@
+server:
+  port: 8070
+spring:
+  application:
+    name: "eservice"
+  config:
+    import: "optional:configserver:http://localhost:8030/"
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    shutdown:
+      access: unrestricted
+    health:
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8040/eureka/
+
+info:
+  app:
+    name: "eservice"
+    description: "UBA Clone EService Application"
+    version: "1.0.0"
+
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+
+logging:
+  level:
+    com:
+      ubaclone:
+        eservice: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+keycloak:
+  server-url: http://localhost:8180
+  realm: ubaclone
+  client-id: ubaclone-client
+  client-secret: 4iStvSmrOoKzZoxp8kTUIoR5vCcMiabf
