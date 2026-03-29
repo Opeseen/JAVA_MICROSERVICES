@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "accounts", fallbackFactory = AccountsFallbackFactory.class)
 public interface AccountFeignClient {
 
+  /**
+    * @return userEmail
+   */
   @GetMapping(value = "/api/verifyAccount", consumes = "application/json")
-    void verifyUserAccount(@RequestParam String accountNumber);
-
+    String verifyUserAccount(@RequestParam String accountNumber);
 }

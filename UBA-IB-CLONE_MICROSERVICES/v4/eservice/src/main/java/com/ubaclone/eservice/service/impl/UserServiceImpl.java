@@ -35,8 +35,8 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   public void registerUser(UserRecord userRecord) {
-    verifyUserAccount(userRecord.accountNumber()); // verify the accountNumber provided by the user
-    UserRepresentation newUser = getUserRepresentation(userRecord);
+    String userEmail = verifyUserAccount(userRecord.accountNumber()); // verify account number exists and returns the user email
+    UserRepresentation newUser = getUserRepresentation(userRecord, userEmail);
     Response response = keycloak.realm(realm).users().create(newUser);
     if (response.getStatus() != 201){
       log.info("Failed to create user with status code of: {}", response.getStatus());
@@ -51,12 +51,12 @@ public class UserServiceImpl implements IUserService {
   }
 
   // Set user representation details
-  private UserRepresentation getUserRepresentation(UserRecord userRecord) {
+  private UserRepresentation getUserRepresentation(UserRecord userRecord, String email) {
     UserRepresentation newUser = new UserRepresentation();
     newUser.setUsername(userRecord.username());
     newUser.setFirstName(userRecord.firstname());
     newUser.setLastName(userRecord.lastname());
-    newUser.setEmail(userRecord.email());
+    newUser.setEmail(email);
     newUser.setEnabled(true);
     newUser.setEmailVerified(true);
     // set the user password
@@ -79,9 +79,9 @@ public class UserServiceImpl implements IUserService {
     keycloak.realm(realm).users().get(userId).roles().realmLevel().add(List.of(role));
   }
 
-  private void verifyUserAccount(String accountNumber){
+  private String verifyUserAccount(String accountNumber){
     try{
-      accountFeignClient.verifyUserAccount(accountNumber);
+      return accountFeignClient.verifyUserAccount(accountNumber);
     }catch (FeignException.NotFound ex) {
       // 404 from ACCOUNT service only
       throw new ResourceNotFound("account", "accountNumber", accountNumber);

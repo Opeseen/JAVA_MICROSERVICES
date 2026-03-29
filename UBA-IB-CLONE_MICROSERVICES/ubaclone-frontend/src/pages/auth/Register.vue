@@ -11,6 +11,7 @@ import {
 import { toast } from "vue-sonner";
 import { authService } from "@/services/auth.service";
 import { RouterLink, useRouter } from "vue-router";
+import { Loader2 } from "lucide-vue-next";
 
 const router = useRouter();
 const isLoading = ref(false);
@@ -33,7 +34,59 @@ const form = ref<RegisterForm>({
   accountType: "" as "savings" | "current",
 });
 
+type FormErrors = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  bvn?: string;
+  accountType?: string;
+};
+
+const errors = ref<FormErrors>({});
+
+function validateInput(): boolean {
+  const newErrors: FormErrors = {};
+  if (!form.value.firstName.trim()) {
+    newErrors.firstName = "First name is required";
+  }
+
+  if (!form.value.lastName.trim()) {
+    newErrors.lastName = "Last name is required";
+  }
+
+  if (!form.value.email) {
+    newErrors.email = "Email is required";
+  } else if (!/^\S+@\S+\.\S+$/.test(form.value.email)) {
+    newErrors.email = "Enter a valid email address";
+  }
+
+  if (!form.value.phone) {
+    newErrors.phone = "Phone number is required";
+  } else {
+    const cleanedPhone = form.value.phone.replace(/\s/g, "");
+    if (!/^\+?\d{10,14}$/.test(cleanedPhone)) {
+      newErrors.phone = "Enter a valid phone number";
+    }
+  }
+
+  if (!form.value.bvn) {
+    newErrors.bvn = "BVN is required";
+  } else if (!/^\d{11}$/.test(form.value.bvn)) {
+    newErrors.bvn = "BVN must be exactly 11 digits";
+  }
+
+  if (!form.value.accountType) {
+    newErrors.accountType = "Please select an account type";
+  }
+
+  errors.value = newErrors;
+
+  return Object.keys(newErrors).length === 0;
+}
+
 async function handleSubmit() {
+  if (!validateInput()) return;
   try {
     isLoading.value = true;
     await authService.register({
@@ -106,6 +159,9 @@ async function handleSubmit() {
                 placeholder="John"
                 class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
               />
+              <p v-if="errors.firstName" class="text-xs text-red-500">
+                {{ errors.firstName }}
+              </p>
             </div>
             <div class="flex flex-col gap-1.5">
               <label class="text-sm font-medium text-gray-700">Last Name</label>
@@ -115,6 +171,9 @@ async function handleSubmit() {
                 placeholder="Doe"
                 class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
               />
+              <p v-if="errors.lastName" class="text-xs text-red-500">
+                {{ errors.lastName }}
+              </p>
             </div>
           </div>
 
@@ -129,6 +188,9 @@ async function handleSubmit() {
               placeholder="john@example.com"
               class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
             />
+            <p v-if="errors.email" class="text-xs text-red-500">
+              {{ errors.email }}
+            </p>
           </div>
 
           <!-- Phone -->
@@ -142,6 +204,9 @@ async function handleSubmit() {
               placeholder="+234 000 0000 000"
               class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
             />
+            <p v-if="errors.phone" class="text-xs text-red-500">
+              {{ errors.phone }}
+            </p>
           </div>
 
           <!-- BVN -->
@@ -156,6 +221,9 @@ async function handleSubmit() {
             />
             <p class="text-xs text-gray-400">
               Your BVN is used to verify your identity
+            </p>
+            <p v-if="errors.bvn" class="text-xs text-red-500">
+              {{ errors.bvn }}
             </p>
           </div>
 
@@ -173,6 +241,9 @@ async function handleSubmit() {
                 <SelectItem value="current">Current Account</SelectItem>
               </SelectContent>
             </Select>
+            <p v-if="errors.accountType" class="text-xs text-red-500">
+              {{ errors.accountType }}
+            </p>
           </div>
 
           <!-- Submit Button -->
@@ -181,6 +252,7 @@ async function handleSubmit() {
             :disabled="isLoading"
             @click="handleSubmit"
           >
+            <Loader2 v-if="isLoading" class="w-4 h-4 animate-spin" />
             {{ isLoading ? "Creating Account..." : "Create Account" }}
           </Button>
 

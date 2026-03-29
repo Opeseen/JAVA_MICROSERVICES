@@ -6,6 +6,7 @@ import Register from "@/pages/auth/Register.vue";
 import Overview from "@/pages/dashboard/Overview.vue";
 import Settings from "@/pages/dashboard/Settings.vue";
 import NotFound from "@/components/errors/NotFound.vue";
+import IBankingregister from "@/pages/auth/IBankingregister.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -24,6 +25,10 @@ const router = createRouter({
         {
           path: "register",
           component: Register,
+        },
+        {
+          path: "ibanking/register",
+          component: IBankingregister,
         },
       ],
     },

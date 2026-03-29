@@ -8,7 +8,6 @@ public record UserRecord(
     @NotBlank String firstname,
     @NotBlank String lastname,
     @NotBlank String password,
-    @NotBlank String email,
 
     @Pattern(
         regexp = "^[0-9]{10}$",

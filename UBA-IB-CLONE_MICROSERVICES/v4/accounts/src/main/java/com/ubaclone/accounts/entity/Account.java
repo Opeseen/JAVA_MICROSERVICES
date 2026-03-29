@@ -1,9 +1,7 @@
 package com.ubaclone.accounts.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.ubaclone.accounts.enumeration.AccountType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +15,10 @@ public class Account extends BaseEntity{
 
   @Column(name = "balance")
   private Integer balance;
+
+  @Column(name = "account_type")
+  @Enumerated(EnumType.STRING)
+  private AccountType accountType;
 
   @Column(name = "customer_id")
   private Long customerId;

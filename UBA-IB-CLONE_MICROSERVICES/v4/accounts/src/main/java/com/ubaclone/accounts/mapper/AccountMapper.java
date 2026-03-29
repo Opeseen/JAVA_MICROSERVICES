@@ -1,17 +1,18 @@
 package com.ubaclone.accounts.mapper;
 
-import com.ubaclone.accounts.dto.AccountDTO;
+import com.ubaclone.accounts.dto.AccountInformationDTO;
 import com.ubaclone.accounts.entity.Account;
 
 public class AccountMapper {
-  public static AccountDTO mapToAccountDto(Account account, AccountDTO accountDTO){
-    accountDTO.setAccountNumber(account.getAccountNumber().toString());
-    accountDTO.setBalance(account.getBalance());
-    return accountDTO;
+  public static AccountInformationDTO mapToAccountDto(Account account, AccountInformationDTO accountInformationDTO){
+    accountInformationDTO.setAccountNumber(account.getAccountNumber().toString());
+    accountInformationDTO.setAccountType(account.getAccountType().toString());
+    accountInformationDTO.setBalance(account.getBalance());
+    return accountInformationDTO;
   }
 
-  public static Account mapToAccount(AccountDTO accountDTO, Account account){
-    account.setAccountNumber(Long.valueOf(accountDTO.getAccountNumber()));
+  public static Account mapToAccount(AccountInformationDTO accountInformationDTO, Account account){
+    account.setAccountNumber(Long.valueOf(accountInformationDTO.getAccountNumber()));
     return account;
   }
 

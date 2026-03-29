@@ -28,7 +28,4 @@ public class Customer extends BaseEntity {
   @Column(name = "bvn")
   private Long bvn;
 
-  @Column(name = "account_type")
-  private String accountType;
-
 }

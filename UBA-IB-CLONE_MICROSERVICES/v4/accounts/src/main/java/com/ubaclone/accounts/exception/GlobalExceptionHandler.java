@@ -55,6 +55,18 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ErrorResponseDTO> handleBadRequestException(BadRequestException exception, WebRequest webRequest){
+    ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+        false,
+        webRequest.getDescription(false),
+        exception.getMessage(),
+        LocalDateTime.now()
+    );
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Object> handleMethodArgumentNotValid(
       MethodArgumentNotValidException exception ){

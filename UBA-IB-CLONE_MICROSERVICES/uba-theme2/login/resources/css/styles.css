@@ -1,0 +1,367 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── BASE ── */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0f0f0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── PAGE WRAPPER ── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── MAIN LAYOUT ── */
+.main-layout {
+  flex: 1;
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 60px 40px;
+  gap: 80px;
+  align-items: center;
+}
+
+/* ── LEFT PANEL ── */
+.left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-logo { margin-bottom: 40px; }
+
+.logo-uba {
+  font-size: 42px;
+  font-weight: 900;
+  color: #c8102e;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 9.5px;
+  color: #c8102e;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  margin-top: 3px;
+}
+
+.brand-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+  line-height: 1.08;
+  color: #1a1a1a;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.brand-highlight { color: #c8102e; }
+
+.brand-sub {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.75;
+  margin-bottom: 40px;
+}
+
+.brand-features { display: flex; flex-direction: column; gap: 16px; }
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13.5px;
+  color: #555;
+}
+
+.feature-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c8102e;
+  flex-shrink: 0;
+}
+
+/* ── RIGHT PANEL ── */
+.right-panel {
+  width: 360px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.card-header {
+  background: #c8102e;
+  padding: 14px 24px;
+  text-align: center;
+}
+
+.card-title {
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── ERROR ALERT ── */
+.alert-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff0f0;
+  border: 1px solid #f5c0c0;
+  border-radius: 3px;
+  padding: 10px 12px;
+  color: #c8102e;
+  font-size: 12.5px;
+}
+
+/* ── LOCALE ROW ── */
+.locale-row { display: flex; gap: 10px; }
+
+.locale-sel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f7f7f7;
+  border: 1px solid #e4e4e4;
+  border-radius: 3px;
+  padding: 7px 10px;
+  flex: 1;
+}
+
+.flag { font-size: 16px; }
+
+select {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+}
+
+/* ── FORM ── */
+#kc-form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* ── INPUTS ── */
+.input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background: #fafafa;
+  padding: 0 12px;
+  transition: border-color 0.2s;
+}
+
+.input-wrap:focus-within {
+  border-color: #c8102e;
+  background: #fff;
+}
+
+.input-wrap.input-error { border-color: #e53e3e; }
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.input-wrap input[type="text"],
+.input-wrap input[type="password"] {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 0;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #222;
+  outline: none;
+  min-width: 0;
+  width: 100%;
+}
+
+.input-wrap input::placeholder { color: #bbb; }
+
+.toggle-pw {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+.input-hint {
+  font-size: 11px;
+  color: #999;
+}
+
+/* ── BUTTONS ── */
+.login-btn {
+  background: #c8102e;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 13px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.login-btn:hover { background: #a80d25; }
+
+.register-btn {
+  display: block;
+  background: #6b6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+/* ── SECURITY BADGE ── */
+.security-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  font-size: 11.5px;
+  color: #999;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #f0f0f0;
+  border-top: 1px solid #ddd;
+  padding: 16px 0;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #888;
+  font-size: 11.5px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-links { display: flex; gap: 16px; }
+
+.footer-links a {
+  color: #888;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: #c8102e; }
+
+input {
+  font-family: inherit;
+}
+
+.input-wrap {
+  min-height: 42px;
+}
+
+input:focus {
+  outline: none;
+}
+
+#kc-header {
+  display: none;
+}
+
+
+/* ── RESPONSIVE — Tablet ── */
+@media (max-width: 900px) {
+  .main-layout { gap: 40px; padding: 40px 30px; }
+  .brand-headline { font-size: 42px; }
+  .right-panel { width: 320px; }
+}
+
+/* ── RESPONSIVE — Mobile ── */
+@media (max-width: 680px) {
+  .main-layout {
+    flex-direction: column;
+    padding: 32px 20px;
+    gap: 36px;
+    align-items: stretch;
+  }
+  .left-panel { align-items: center; text-align: center; }
+  .brand-features { align-items: flex-start; text-align: left; }
+  .brand-headline { font-size: 36px; }
+  .brand-sub br { display: none; }
+  .right-panel { width: 100%; }
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+}
+
+/* ── RESPONSIVE — Small mobile ── */
+@media (max-width: 380px) {
+  .brand-headline { font-size: 30px; }
+  .card-body { padding: 18px; }
+}
