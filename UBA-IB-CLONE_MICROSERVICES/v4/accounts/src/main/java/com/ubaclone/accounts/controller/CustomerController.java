@@ -87,7 +87,7 @@ public class CustomerController {
     iTransactionService.deposit(transactionDTO);
     return new ResponseEntity<>(
         new SuccessResponseDTO(true, "deposit processed successfully", LocalDateTime.now()),
-        HttpStatus.CREATED
+        HttpStatus.OK
     );
   }
 
@@ -96,7 +96,7 @@ public class CustomerController {
     iTransactionService.withdrawal(transactionDTO);
     return new ResponseEntity<>(
         new SuccessResponseDTO(true, "withdrawal processed successfully", LocalDateTime.now()),
-        HttpStatus.CREATED
+        HttpStatus.OK
     );
   }
 
